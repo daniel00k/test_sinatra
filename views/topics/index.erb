@@ -1,0 +1,51 @@
+<div class="row">
+    <!-- Main Blog Content -->
+    <div class="large-9 columns" role="content">
+      <form action="/topics" method="post" role="form" id="topics_form">
+        <div class="row">
+          <div class="large-8 columns">
+            <label>Insert words to search
+              <input type="text"  name="topic[words]" id="topics_input" />
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="large-8 columns">
+            <label>Select How Many of the tweets you want to make favourite
+              <select name="topic[quantity]" >
+                <%(1..15).each do |n|%>
+                  <option value="<%=n%>"><%=n%></option>
+                <% end %>
+              </select>
+            </label>
+          </div>
+        </div>
+        <button class="medium secondary button">Submit</button>
+      </form>
+      <article>
+        <h3><a href="#">How this works?</a></h3>
+        <div class="row">
+          <div class="large-8 columns">
+            <p>Each hour we will look for tweets that contains at least one of your current words.</p>
+            <p>Then the app will mark some of the tweets as favourite. That number of marked tweets depends on the number you selected.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+    <!-- End Main Content -->
+    <!-- Sidebar -->
+    <aside class="large-3 columns">
+      <h5>Current Words</h5>
+      <ul class="side-nav">
+        <% if @topics.empty? %>
+          <li><a href="javascript:;" onclick="showForm()">You have'n enter any word, click here to start</a></li>
+        <% else %>
+          <% @topics.each do |topic| %>
+            <li><a href="javascript:;"><%= topic.name %></a></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </aside>
+    <!-- End Sidebar -->
+  </div>
+  <!-- End Main Content and Sidebar -->
