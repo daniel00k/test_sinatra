@@ -1,4 +1,4 @@
-class CreateFavourite < ActiveRecord::Migration
+class CreateFavorite < ActiveRecord::Migration
   def change
     create_table :favorites do |t|
       t.integer :quantity

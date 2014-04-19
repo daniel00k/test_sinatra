@@ -1,23 +1,28 @@
 require "sinatra"
 require "sinatra/activerecord"
-require './environments'
+Dir.glob('lib/*.rb').each { |r| load r}
 class Topic < ActiveRecord::Base
 end
-class Favourite < ActiveRecord::Base
+class Favorite < ActiveRecord::Base
 end
-class FavouriteTweet < ActiveRecord::Base
+class FavoriteTweet < ActiveRecord::Base
 end
 class Follower < ActiveRecord::Base
+  def self.by_favorite
+    find_by_sql("select followers.* from followers join favorite_tweets on favorite_tweets.tweeted_by_user_id=followers.user_id where followers.first_load IS FALSE")
+  end
 end
-
+set :port, 3000
+set :bind, '0.0.0.0'
 get "/" do
   @topics = Topic.all
   erb :"topics/index"
 end
 
 post '/topics' do
-  words_array = (params[:topic][:words]).split()
+  words_array = (params[:topic][:words]).split(",")
   words_array.each{|w| Topic.create(name: w)}
-  Favourite.create(quantity: params[:topic][:quantity])
+  Favorite.create(quantity: params[:topic][:quantity])
+  TwitterMicroClient::Client.new.load_followers!
   redirect "/"
 end

@@ -1,17 +1,20 @@
 <div class="row">
     <!-- Main Blog Content -->
     <div class="large-9 columns" role="content">
-      <form action="/topics" method="post" role="form" id="topics_form">
+      <form action="/topics" method="post" role="form" id="topics_form" onsubmit="return validateForm()">
         <div class="row">
           <div class="large-8 columns">
-            <label>Insert words to search
-              <input type="text"  name="topic[words]" id="topics_input" />
+            <div id="error_words" class="alert-box alert-error radius">
+              Must enter 5 words.
+            </div>
+            <label id="insert_words">Insert words to search(hit enter to add a word)
+              <input type="text"  name="topic[words]" id="topics_input" placeholder="Enter 5 words" />
             </label>
           </div>
         </div>
         <div class="row">
           <div class="large-8 columns">
-            <label>Select How Many of the tweets you want to make favourite
+            <label>Select How Many of the tweets you want to make favorite
               <select name="topic[quantity]" >
                 <%(1..15).each do |n|%>
                   <option value="<%=n%>"><%=n%></option>
@@ -20,31 +23,34 @@
             </label>
           </div>
         </div>
-        <button class="medium secondary button">Submit</button>
+        <button class="medium secondary button" id="submit_button">Submit</button>
       </form>
       <article>
         <h3><a href="#">How this works?</a></h3>
         <div class="row">
           <div class="large-8 columns">
             <p>Each hour we will look for tweets that contains at least one of your current words.</p>
-            <p>Then the app will mark some of the tweets as favourite. That number of marked tweets depends on the number you selected.</p>
+            <p>Then the app will mark some of the tweets as favorite. That number of marked tweets depends on the number you selected.</p>
           </div>
         </div>
       </article>
     </div>
     <!-- End Main Content -->
     <!-- Sidebar -->
+    
     <aside class="large-3 columns">
-      <h5>Current Words</h5>
-      <ul class="side-nav">
-        <% if @topics.empty? %>
-          <li><a href="javascript:;" onclick="showForm()">You have'n enter any word, click here to start</a></li>
-        <% else %>
-          <% @topics.each do |topic| %>
-            <li><a href="javascript:;"><%= topic.name %></a></li>
+      <div class="callout panel">
+        <h5>Current Words</h5>
+        <ul class="side-nav">
+          <% if @topics.empty? %>
+            <li><a href="javascript:;" onclick="showForm()">You haven't enter any word, click here to start</a></li>
+          <% else %>
+            <% @topics.each do |topic| %>
+              <li><a href="javascript:;"><%= topic.name %></a></li>
+            <% end %>
           <% end %>
-        <% end %>
-      </ul>
+        </ul>
+      </div>
     </aside>
     <!-- End Sidebar -->
   </div>

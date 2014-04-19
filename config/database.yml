@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: tweets_client
+  username: postgres
+  password: 123456
+  host: localhost
