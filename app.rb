@@ -1,7 +1,10 @@
 require "sinatra"
 require "sinatra/activerecord"
 require 'sinatra/respond_with'
+require 'rack-flash'
+require 'sinatra/redirect_with_flash'
 Dir.glob('lib/*.rb').each { |r| load r}
+
 class Topic < ActiveRecord::Base
 end
 class Favorite < ActiveRecord::Base
@@ -13,6 +16,9 @@ class Follower < ActiveRecord::Base
     find_by_sql("select followers.* from followers join favorite_tweets on favorite_tweets.tweeted_by_user_id=followers.user_id where followers.first_load IS FALSE")
   end
 end
+
+enable :sessions
+use Rack::Flash
 set :port, 3000
 set :bind, '0.0.0.0'
 get "/" do
@@ -25,7 +31,7 @@ post '/topics' do
   words_array.each{|w| Topic.create(name: w)}
   Favorite.create(quantity: params[:topic][:quantity])
   TwitterMicroClient::Client.new.load_followers!
-  redirect "/"
+  redirect "/", notice: 'Words successfuly created'
 end
 
 get '/followers', :provides => [:json] do

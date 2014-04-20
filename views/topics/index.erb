@@ -27,6 +27,11 @@
       </form>
       <article>
         <div id="container">
+          <% if flash and flash[:notice] %>
+            <div data-alert class="alert-box info radius">
+              <%= flash[:notice] %>
+            </div>
+          <% end %>
           <script type="text/x-handlebars">
             {{outlet}}
           </script>

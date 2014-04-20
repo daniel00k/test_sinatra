@@ -11,6 +11,8 @@ var validateForm = function(){
       $("#insert_words").addClass("error");
       $("#error_words").show();
       return false;
+   }else{
+    $("#submit_button").attr("disabled", true);
    }
 }
 $(document).on("mouseenter", ".followers-container li img", function(){
@@ -30,6 +32,9 @@ $(document).on("mouseleave",".favorites-box .favorites-container img", function(
 
 $(document).ready(function(){
    $(document).foundation();
+     setTimeout(function() {
+        $(".alert-box").remove();
+    }, 3000);
    $("#topics_input").tokenfield({
      allowDuplicates: false,
      minLength: 2,
