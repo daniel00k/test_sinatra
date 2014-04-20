@@ -6,7 +6,7 @@ gem "pg"
 gem "activerecord"
 gem "sinatra-activerecord"
 gem "twitter"
-gem "puma"
+#gem "puma"
 gem "foreman"
 gem 'rack-flash3'
 gem 'sinatra-redirect-with-flash'
