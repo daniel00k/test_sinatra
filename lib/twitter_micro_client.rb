@@ -2,6 +2,12 @@ require "twitter"
 module TwitterMicroClient
   class Client
     attr_accessor :client
+    ###########################################################################
+    #
+    # Use the five topics and the quantity created at the beggining and then
+    # find tweets using the topics.
+    #
+    ###########################################################################
     def find_tweets
       @topics    =  Topic.all.limit(5).pluck(:name).join(" OR ")
       @quantity  =  Favorite.first.quantity
@@ -11,6 +17,13 @@ module TwitterMicroClient
       check_new_followers
     end
 
+    ###########################################################################
+    #
+    # tweet => A Twitter::Tweet Object
+    # Use the tweet parameter to mark it as favorite and if the response
+    # is success a new favorite twitter is created
+    #
+    ###########################################################################
     def create_favorite_tweet tweet
       response = client.favorite tweet.id
       if response.first.is_a? Twitter::Tweet
@@ -22,6 +35,12 @@ module TwitterMicroClient
       end
     end
 
+    ###########################################################################
+    #
+    # When the topics and the quantity are setted, loads all the followers
+    # and set the :first_load flag.
+    #
+    ###########################################################################
     def load_followers!
       c = create_client
       c.followers.each do |f|
@@ -32,6 +51,11 @@ module TwitterMicroClient
       end
     end
 
+    ###########################################################################
+    #
+    #Loops through the followers and creates a new follower if finds a new one
+    #
+    ###########################################################################
     def check_new_followers
       client.followers.each do |f|
         unless Follower.where(user_id: f.id.to_s).first
@@ -41,7 +65,11 @@ module TwitterMicroClient
         end
       end
     end
-
+    ###########################################################################
+    #
+    #Creates the twitter client using the twitter credentials
+    #
+    ###########################################################################
     def create_client
       Twitter::REST::Client.new do |config|
         config.consumer_key        = "7DtOD39lNcuX0XXCIkBabtiLj"
