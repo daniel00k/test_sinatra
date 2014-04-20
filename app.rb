@@ -1,5 +1,6 @@
 require "sinatra"
 require "sinatra/activerecord"
+require 'sinatra/contrib'
 Dir.glob('lib/*.rb').each { |r| load r}
 class Topic < ActiveRecord::Base
 end
@@ -25,4 +26,19 @@ post '/topics' do
   Favorite.create(quantity: params[:topic][:quantity])
   TwitterMicroClient::Client.new.load_followers!
   redirect "/"
+end
+
+get '/followers', :provides => [:json] do
+  @followers = Follower.all
+
+  respond_to do |format|
+    format.json { @followers.to_json }
+  end
+end
+get '/favorites', :provides => [:json] do
+  @favorites = FavoriteTweet.all
+
+  respond_to do |format|
+    format.json { @favorites.to_json }
+  end
 end

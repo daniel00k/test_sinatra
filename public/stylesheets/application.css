@@ -9,3 +9,26 @@
 #error_words{
   display: none;
 }
+.followers-container{
+  max-height: 300px;
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+.followers-container img{
+  border-radius: 25px;
+}
+.favorites-box{
+  max-height: 300px;
+  overflow-y: scroll;
+}
+.favorites-text{
+  padding-left: 0px;
+  left: -10px;
+}
+.favorites-container{
+  margin-bottom: 2px;
+  border-radius: 4px;
+}
+.favorites-container:hover{
+  background: rgba(242, 242, 242, 0.18);
+}
