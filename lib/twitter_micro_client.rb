@@ -3,18 +3,18 @@ module TwitterMicroClient
   class Client
     attr_accessor :client
     def find_tweets
-      @topics    =  Topic.all.limit(5).pluck(:name).join(",")
-      @quantity  =  favorite.first.quantity
+      @topics    =  Topic.all.limit(5).pluck(:name).join(" OR ")
+      @quantity  =  Favorite.first.quantity
       @client    =  create_client
-      response   =  @client.search(@topics).to_a
-      @quantity.times{|q| create_favorite_tweet response[Random.rand(response.length)] }
+      response   =  @client.search(@topics, result_type: "recent").to_a
+      @quantity.times{create_favorite_tweet response[Random.rand(response.length)] }
       check_new_followers
     end
 
     def create_favorite_tweet tweet
       response = client.favorite tweet.id
       if response.first.is_a? Twitter::Tweet
-        favoriteTweet.create tweet_id: tweet.id,
+        FavoriteTweet.create tweet_id: tweet.id,
                               tweeted_by_username: tweet.user.screen_name,
                               tweeted_by_user_picture: tweet.user.profile_image_url.to_s,
                               tweeted_by_user_id: tweet.user.id,
@@ -33,8 +33,8 @@ module TwitterMicroClient
     end
 
     def check_new_followers
-      client.followers.each do |follower|
-        unless Follower.where(user_id: follower.id).first
+      client.followers.each do |f|
+        unless Follower.where(user_id: f.id.to_s).first
           Follower.create user_id: f.id,
                         user_name: f.screen_name,
                         user_picture: f.profile_image_url.to_s

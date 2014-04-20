@@ -1,6 +1,6 @@
 require "sinatra"
 require "sinatra/activerecord"
-require 'sinatra/contrib'
+require 'sinatra/respond_with'
 Dir.glob('lib/*.rb').each { |r| load r}
 class Topic < ActiveRecord::Base
 end
@@ -29,7 +29,7 @@ post '/topics' do
 end
 
 get '/followers', :provides => [:json] do
-  @followers = Follower.all
+  @followers = Follower.by_favorite
 
   respond_to do |format|
     format.json { @followers.to_json }
