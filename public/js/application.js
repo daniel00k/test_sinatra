@@ -45,11 +45,11 @@ $(document).on("mouseenter", ".followers-container li img", function(){
 $(document).on("mouseleave",".followers-container li img", function(){
   $("#hovering").text("");
 });
-$(document).on("mouseenter", ".favorites-box .favorites-container img", function(){
-    $("#hovering").text("("+$(this).attr("alt")+")");
+$(document).on("mouseenter", ".favorites-box .favorites-container", function(){
+    $("#hovering").text("("+$(this).find("img").attr("alt")+")");
 });
 
-$(document).on("mouseleave",".favorites-box .favorites-container img", function(){
+$(document).on("mouseleave",".favorites-box .favorites-container", function(){
   $("#hovering").text("");
 });
 
