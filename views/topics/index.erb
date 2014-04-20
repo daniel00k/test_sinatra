@@ -54,13 +54,15 @@
     {{#each model}}
       <li><img {{bind-attr src=this.user_picture alt=this.user_name title=this.user_name}}/>
       </li>
+    {{else}}
+      <li> No Followers yet :(</li>
     {{/each}}
   </ul>
 </script>
 
 <script type="text/x-handlebars" id="favorites">
-  <div class="favorites-box small-12 columns">
   <h4>Favorites <small id="hovering"></small></h4>
+  <div class="favorites-box small-12 columns">
     {{#each model}}
       <div class="row panel favorites-container">
         <div class="small-1 columns">
@@ -70,6 +72,8 @@
           {{this.body}}
         </div>
       </div>
+    {{else}}
+      <p> No Favorites yet :(</p>
     {{/each}}
   </div>
 </script>
