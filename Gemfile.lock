@@ -38,6 +38,8 @@ GEM
     multipart-post (2.0.0)
     naught (1.0.0)
     pg (0.17.1)
+    puma (2.8.2)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-flash3 (1.0.5)
       rack
@@ -86,6 +88,7 @@ DEPENDENCIES
   activerecord
   foreman
   pg
+  puma
   rack-flash3
   sinatra
   sinatra-activerecord
